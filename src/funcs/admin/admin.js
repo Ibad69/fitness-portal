@@ -3,16 +3,32 @@ import crypto from "crypto";
 import { db } from "../../index.js";
 
 
-export const addPlace = async (body) => {
-    const { name, coordinates, address, openTimings, closeTimings } = body;
+export const addDietItems = async (body) => {
+    const { name, calories } = body;
     let id = crypto.randomUUID();
 
     const placeResult = await db.query(
         `
-        INSERT INTO places(id, name, coordinates, address, openTimings, closeTimings) VALUES(:id, :name, :coordinates, :address, :openTimings, :closeTimings)
+        INSERT INTO diet_items(id, name, calories) VALUES(:id, :name, :calories)
         `,
         {
-            replacements: { id, name, coordinates, address, openTimings, closeTimings },
+            replacements: { id, name, calories },
+            type: QueryTypes.INSERT,
+        }
+    );
+    return placeResult;
+}
+
+export const addExcercises = async (body) => {
+    const { name, calorieBurned, weight } = body;
+    let id = crypto.randomUUID();
+
+    const placeResult = await db.query(
+        `
+        INSERT INTO excercises(id, name, calorieBurned, weight) VALUES(:id, :name, :calorieBurned, weight)
+        `,
+        {
+            replacements: { id, name, calorieBurned, weight },
             type: QueryTypes.INSERT,
         }
     );

@@ -152,3 +152,27 @@ export const getPosts = async (req, res) => {
     return errorResponse(req, res, error);
   }
 };
+
+export const getDietItems = async (req, res) => {
+  try {
+    // if (!req.body.userId) {
+    //   return failResponse(req, res, "please provide a userId in the body will be updated by token in the future ");
+    // }
+    // if (!req.body.email) {
+    //   return failResponse(req, res, "email needs to be given here ");
+    // }
+    const posts = await feedFuncs.getDietItems();
+    return successResponse(req, res, posts);
+  } catch (error) {
+    return errorResponse(req, res, error);
+  }
+};
+
+export const getExcercises = async (req, res) => {
+  try {
+    const posts = await feedFuncs.getExcercises();
+    return successResponse(req, res, posts);
+  } catch (error) {
+    return errorResponse(req, res, error);
+  }
+};

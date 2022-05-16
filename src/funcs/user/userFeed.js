@@ -23,13 +23,28 @@ export const createPlacePost = async(body) => {
 
 }
 
-export const getPosts = async() => {
+export const getDietItems = async() => {
    
     const userResult = await db.query(
         `
-                SELECT userposts.id, userposts.title, userposts.caption, userposts.image, userposts.placeId, 
-                userposts.createdAt, user.username, user.profileImage, user.id FROM userposts 
-                LEFT JOIN user ON user.id = userposts.userId
+                SELECT * FROM diet_items
+
+            `,
+        {
+          replacements: { },
+          type: QueryTypes.SELECT,
+        }
+      );
+      return userResult;
+   
+   
+   }
+
+   export const getExcercises = async() => {
+   
+    const userResult = await db.query(
+        `
+                SELECT * FROM excercises
 
             `,
         {
