@@ -46,22 +46,18 @@ export const signIn = async (req, res) => {
 
 export const signUp = async (req, res) => {
   try {
-    const { email, username, password, phone } = req.body;
+    const { email, name, password } = req.body;
 
     if (!email) {
       return failResponse(req, res, "please provide an email to proceed");
     }
 
-    if (!username) {
+    if (!name) {
       return failResponse(req, res, "please provide a username to proceed");
     }
 
     if (!password) {
       return failResponse(req, res, "please provide a password to proceed");
-    }
-
-    if (!phone) {
-      return failResponse(req, res, "please provide a phone number to proceed");
     }
 
     const emailAvail = await authFuncs.emailCheck(req.body.email);
@@ -122,7 +118,7 @@ export const updatePassword = async (req, res) => {
   }
 };
 
-export const createUserPost = async (req, res) => {
+export const addUserHealthDetails = async (req, res) => {
   try {
     if (!req.body.userId) {
       return failResponse(req, res, "please provide a userId in the body will be updated by token in the future ");
@@ -130,9 +126,9 @@ export const createUserPost = async (req, res) => {
     // if (!req.body.email) {
     //   return failResponse(req, res, "email needs to be given here ");
     // }
-    const { userId, title, caption, image, placeId } = req.body;
-    const verified = await feedFuncs.createPlacePost(req.body);
-    return successResponse(req, res, "post created ");
+    //const { userId, title, caption, image, placeId } = req.body;
+    const verified = await feedFuncs.addUserHealthDetails(req.body);
+    return successResponse(req, res, "health details added ");
   } catch (error) {
     return errorResponse(req, res, error);
   }

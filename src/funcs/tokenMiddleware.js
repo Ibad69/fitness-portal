@@ -7,7 +7,7 @@ export const middleWareFunc = (req, res, next) => {
     const bearer = bearerHeader.split(" ");
     const bearertoken = bearer[1];
     req.token = bearertoken;
-    jwt.verify(req.token, "linkitsoft123", async (err, Authdata) => {
+    jwt.verify(req.token, process.env.JWTPWD, async (err, Authdata) => {
       if (err) {
         return res.json({
           message: "TokenVefificationFailed",

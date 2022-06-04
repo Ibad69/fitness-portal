@@ -3,18 +3,19 @@ import crypto from "crypto";
 import { db } from "../../index.js";
 
 
-export const createPlacePost = async(body) => {
+export const addUserHealthDetails = async(body) => {
 
- const { userId, title, caption, image, placeId } = body;
-
+ const {  userId, gender, weight, height, goal, caloriesIntake, caloriesBurned } = body;
+ let recommendedIntake = 150;
  let id = crypto.randomUUID();
 
  const postResult = await db.query(
      `
-     INSERT INTO userposts(id, userId, title, caption, image, placeId) VALUES(:id, :userId, :title, :caption, :image, :placeId)
+     INSERT INTO user_health_details(id, userId, gender, weight, height, goal, recommendedIntake, caloriesIntake, caloriesBurned) 
+     VALUES(:id, :userId, :gender, :weight, :height, :goal, :recommendedIntake, :caloriesIntake, :caloriesBurned)
      `,
      {
-         replacements: { id, userId, title, caption, image, placeId },
+         replacements: { id, userId, gender, weight, height, goal, recommendedIntake, caloriesIntake, caloriesBurned },
          type: QueryTypes.INSERT,
      }
  );

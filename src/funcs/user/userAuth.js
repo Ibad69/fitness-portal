@@ -17,15 +17,15 @@ export const signIn = async (body) => {
 };
 
 export const registerUser = async (body) => {
-  const { username, email, password, phone } = body;
+  const { name, email, password } = body;
   let id = crypto.randomUUID();
 
   const userResult = await db.query(
     `
-        INSERT INTO user(id, username, email, password, phone) VALUES(:id, :username, :email, :password, :phone)
+        INSERT INTO users(id, name, email, password) VALUES(:id, :name, :email, :password)
         `,
     {
-      replacements: { id, username, email, password, phone },
+      replacements: { id, name, email, password },
       type: QueryTypes.INSERT,
     }
   );
@@ -35,7 +35,7 @@ export const registerUser = async (body) => {
 export const emailCheck = async (email) => {
   const getUser = await db.query(
     `
-        SELECT * FROM user WHERE email = :email
+        SELECT * FROM users WHERE email = :email
         `,
     {
       replacements: { email },
