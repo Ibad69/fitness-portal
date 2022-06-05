@@ -34,3 +34,18 @@ export const addExcercises = async (body) => {
     );
     return placeResult;
 }
+
+export const createBlogPost = async (body) => {
+    const { title, caption, type, minReqCalories, maxReqCalories, goalType } = body;
+    let id = crypto.randomUUID();
+    const placeResult = await db.query(
+        `
+        INSERT INTO posts(id, title, caption, type, minReqCalories, maxReqCalories, goalType) VALUES(:id, :title, :caption, :type, :minReqCalories, :maxReqCalories, :goalType)
+        `,
+        {
+            replacements: { id, title, caption, type, minReqCalories, maxReqCalories, goalType },
+            type: QueryTypes.INSERT,
+        }
+    );
+    return placeResult;
+}

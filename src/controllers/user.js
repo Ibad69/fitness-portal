@@ -172,3 +172,12 @@ export const getExcercises = async (req, res) => {
     return errorResponse(req, res, error);
   }
 };
+
+export const getCustomPosts = async (req, res) => {
+  try {
+    const posts = await feedFuncs.getCustomPosts(req.body);
+    return successResponse(req, res, posts);
+  } catch (error) {
+    return errorResponse(req, res, error);
+  }
+};

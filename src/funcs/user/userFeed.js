@@ -24,6 +24,29 @@ export const addUserHealthDetails = async(body) => {
 
 }
 
+export const getCustomPosts = async(body) => {
+
+  const userId = body.userId;
+  
+  let userDetails = await getUserHealthDetails(userId);
+  userDetails = userDetails[0];
+  const intake = parseInt(userDetails.recommendedIntake);
+  const goal = userDetails.goal;
+
+  const postResult = await db.query(
+      `
+      SELECT * FROM posts WHERE :intake >= minReqCalories  AND :intake <= maxReqCalories AND goalType = :goal
+      `,
+      {
+          replacements: { intake, goal },
+          type: QueryTypes.SELECT,
+      }
+  );
+  return postResult;
+ 
+ 
+ }
+
 export const getDietItems = async() => {
    
     const userResult = await db.query(
@@ -50,6 +73,29 @@ export const getDietItems = async() => {
             `,
         {
           replacements: { },
+          type: QueryTypes.SELECT,
+        }
+      );
+      return userResult;
+   
+   
+   }
+
+
+   // miscellanous functions 
+
+   //getting user health details 
+
+   export const getUserHealthDetails = async(userId) => {
+   
+    const userResult = await db.query(
+        `
+                SELECT name, email, uhd.weight, uhd.height, uhd.goal, uhd.recommendedIntake 
+                FROM users JOIN user_health_details as uhd ON uhd.userId = users.id WHERE users.id = :userId
+
+            `,
+        {
+          replacements: { userId },
           type: QueryTypes.SELECT,
         }
       );

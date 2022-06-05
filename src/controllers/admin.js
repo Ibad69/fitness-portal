@@ -38,3 +38,13 @@ export const addExcercise = async(req, res) => {
         return errorResponse(req, res, error);
     }
 }
+
+export const createBlogPost = async(req, res) => {
+    try{
+        const apiRes = await adminFuncs.createBlogPost(req.body);
+        return successResponse(req, res, apiRes);
+    }catch(error){
+        return errorResponse(req, res, error);
+    }
+}
+
