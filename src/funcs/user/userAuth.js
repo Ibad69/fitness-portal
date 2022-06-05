@@ -6,7 +6,7 @@ export const signIn = async (body) => {
   const { email } = body;
   const userResult = await db.query(
     `
-            SELECT * FROM user WHERE email = :email
+            SELECT * FROM users WHERE email = :email
         `,
     {
       replacements: { email },
