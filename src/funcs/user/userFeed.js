@@ -65,7 +65,31 @@ export const getCustomPosts = async (body) => {
 
   const postResult = await db.query(
     `
-      SELECT * FROM posts WHERE :intake >= minReqCalories  AND :intake <= maxReqCalories AND goalType = :goal
+      SELECT 
+       id, title, caption, type, 
+       (
+        SELECT 
+        JSON_ARRAYAGG(JSON_OBJECT(
+            "postContentId",pc.id,
+            "postContentCaption",pc.caption,
+            "description",pc.description,
+            "additionalDescription",pc.additionalDescription,
+            "mediaUrl",pc.mediaUrl
+        )) 
+        FROM  post_content as pc
+        WHERE postId = posts.id
+        ) as headings,
+        (
+          SELECT 
+          JSON_ARRAYAGG(JSON_OBJECT(
+              "sliderId",slider.id,
+              "fileType",fileType,
+              "fileURL",fileURL
+          )) 
+          FROM  posts_media as slider
+          WHERE postId = posts.id
+          ) as slider
+       FROM posts WHERE :intake >= minReqCalories  AND :intake <= maxReqCalories AND goalType = :goal
       `,
     {
       replacements: { intake, goal },
