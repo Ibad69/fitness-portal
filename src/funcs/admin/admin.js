@@ -1,7 +1,7 @@
 import { QueryTypes } from "sequelize";
 import crypto from "crypto";
 import { db } from "../../index.js";
-import req from "express/lib/request";
+
 
 
 export const addDietItems = async (body) => {
@@ -49,8 +49,8 @@ export const createBlogPost = async (body) => {
         }
     );
 
-    if(req.body.headings){
-        for(const item of headings){
+    if(body.headings && body.headings!==""){
+        for(const item of body.headings){
             const id2 = crypto.randomUUID();
             const postId = id;
             const { caption, description, additionalDescription, mediaUrl } = item;
@@ -67,8 +67,8 @@ export const createBlogPost = async (body) => {
         }
     }
 
-    if(req.body.slider){
-        for(const item of slider){
+    if(body.slider && body.slider!==""){
+        for(const item of body.slider){
             const id2 = crypto.randomUUID();
             const postId = id;
             const { fileType, fileURL } = item;
