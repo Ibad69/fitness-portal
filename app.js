@@ -4,8 +4,16 @@ import userRoutes from "./src/routes/user.js";
 //import homePageRoutes from "./src/routes/homepage.js";
 import adminRoutes from "./src/routes/admin.js";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 const app = express();
+app.use(cors());
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, timeZone, x-token");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, PATCH");
+    next();
+});
 
 db.authenticate()
   .then(() => console.log("Db connected"))
