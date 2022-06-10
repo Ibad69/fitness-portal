@@ -175,7 +175,17 @@ export const getExcercises = async (req, res) => {
 
 export const getCustomPosts = async (req, res) => {
   try {
+    req.body.userId = req.user.id;
     const posts = await feedFuncs.getCustomPosts(req.body);
+    return successResponse(req, res, posts);
+  } catch (error) {
+    return errorResponse(req, res, error);
+  }
+};
+
+export const getRandomPosts = async (req, res) => {
+  try {
+    const posts = await feedFuncs.getRandomPosts();
     return successResponse(req, res, posts);
   } catch (error) {
     return errorResponse(req, res, error);
