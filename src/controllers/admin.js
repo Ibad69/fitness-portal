@@ -48,3 +48,14 @@ export const createBlogPost = async(req, res) => {
     }
 }
 
+export const addDisease = async(req, res) => {
+    try{
+        const apiRes = await adminFuncs.addDisease(req.body);
+        return successResponse(req, res, apiRes);
+    }catch(error){
+        return errorResponse(req, res, error);
+    }
+}
+
+
+

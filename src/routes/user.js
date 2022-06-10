@@ -11,6 +11,8 @@ router.post("/getExcercises",  middleWareFunc, userAuth.getExcercises);
 router.post("/addUserHealthDetails",  middleWareFunc, userAuth.addUserHealthDetails);
 router.post("/getCustomPosts",  middleWareFunc, userAuth.getCustomPosts);
 router.post("/getRandomPosts", userAuth.getRandomPosts);
+router.post("/getDiseases", userAuth.getDiseases);
+router.post("/getPostsByDiseases", userAuth.getPostByDis)
 //router.post("/getRecommendations");
 // router.post("/sendEmail", userAuth.sendEmail);
 // router.post("/verifyCode", userAuth.verifyCode);

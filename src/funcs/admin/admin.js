@@ -38,13 +38,14 @@ export const addExcercises = async (body) => {
 
 export const createBlogPost = async (body) => {
     const { title, caption, type, minReqCalories, maxReqCalories, goalType } = body;
+    const diseaseId =  body.diseaseId ? body.diseaseId : null
     let id = crypto.randomUUID();
     const placeResult = await db.query(
         `
-        INSERT INTO posts(id, title, caption, type, minReqCalories, maxReqCalories, goalType) VALUES(:id, :title, :caption, :type, :minReqCalories, :maxReqCalories, :goalType)
+        INSERT INTO posts(id, title, caption, type, minReqCalories, maxReqCalories, goalType, diseaseId) VALUES(:id, :title, :caption, :type, :minReqCalories, :maxReqCalories, :goalType, :diseaseId)
         `,
         {
-            replacements: { id, title, caption, type, minReqCalories, maxReqCalories, goalType },
+            replacements: { id, title, caption, type, minReqCalories, maxReqCalories, goalType, diseaseId },
             type: QueryTypes.INSERT,
         }
     );
@@ -86,3 +87,20 @@ export const createBlogPost = async (body) => {
 
     return placeResult;
 }
+
+export const addDisease = async (body) => {
+    const { name } = body;
+    let id = crypto.randomUUID();
+
+     await db.query(
+        `
+        INSERT INTO diseases(id, name) VALUES(:id, :name)
+        `,
+        {
+            replacements: { id, name },
+            type: QueryTypes.INSERT,
+        }
+    );
+    return  " added ";
+}
+

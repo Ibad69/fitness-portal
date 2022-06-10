@@ -191,3 +191,25 @@ export const getRandomPosts = async (req, res) => {
     return errorResponse(req, res, error);
   }
 };
+
+export const getDiseases = async (req, res) => {
+  try {
+    const posts = await feedFuncs.getDiseases();
+    return successResponse(req, res, posts);
+  } catch (error) {
+    return errorResponse(req, res, error);
+  }
+};
+
+export const getPostByDis = async (req, res) => {
+  try {
+    if(!req.body.diseaseId){
+      return failResponse(req, res, "please provide a disease ");
+    }
+    const posts = await feedFuncs.getPostByDis(req.body);
+    return successResponse(req, res, posts);
+  } catch (error) {
+    return errorResponse(req, res, error);
+  }
+};
+
