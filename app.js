@@ -5,8 +5,12 @@ import userRoutes from "./src/routes/user.js";
 import adminRoutes from "./src/routes/admin.js";
 import bodyParser from "body-parser";
 import cors from "cors";
+import multer from "multer";
+
+let uploads = multer().any();
 
 const app = express();
+app.use(uploads);
 app.use(cors());
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");

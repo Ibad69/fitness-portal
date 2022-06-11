@@ -7,6 +7,7 @@ router.post("/addDietItems", adminController.addDietItems);
 router.post("/addCalorieBurned", adminController.addExcercise);
 router.post("/createPost", adminController.createBlogPost);
 router.post("/addDisease", adminController.addDisease);
+router.post("/uploadFile", adminController.uploadFile);
 
 
 export default router;

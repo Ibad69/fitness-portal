@@ -6,6 +6,7 @@ import {
 
 import crypto from "crypto";
 import * as adminFuncs from '../funcs/admin/admin.js';
+import * as awsMedia from "../funcs/uploadMedia.js";
 
 export const addDietItems = async(req, res) => {
     try{
@@ -56,6 +57,26 @@ export const addDisease = async(req, res) => {
         return errorResponse(req, res, error);
     }
 }
+
+export const uploadFile = async(req, res) => {
+    try{
+        console.log('inserting files -> req.files', req.files);
+        const baseUrl = process.env.AWS_S3_URL;
+        if(!req.files || !req.files.length){
+            return failResponse(req, res, "no file found ");
+        }
+        let links = [];
+        for(let i = 0; i < req.files.length; i++){
+            const uploadedLink = await awsMedia.s3Upload("content", req.files[i]);
+            links.push(baseUrl+uploadedLink);
+        }
+        return successResponse(req, res, links);
+    }catch(error){
+        return errorResponse(req, res, error);
+    }
+}
+
+
 
 
 
