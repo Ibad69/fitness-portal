@@ -6,7 +6,7 @@ import { db } from "../../index.js";
 export const addUserHealthDetails = async (body) => {
 
   const { userId, gender, weight, height, goal, caloriesIntake, caloriesBurned, excercises, dietPlan } = body;
-  let recommendedIntake = 150;
+  let recommendedIntake = 220;
   let id = crypto.randomUUID();
 
   const postResult = await db.query(
