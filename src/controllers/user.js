@@ -121,10 +121,10 @@ export const updatePassword = async (req, res) => {
 export const addUserHealthDetails = async (req, res) => {
   try {
     req.body.userId = req.user.id;
-    // if (!req.body.email) {
-    //   return failResponse(req, res, "email needs to be given here ");
-    // }
-    //const { userId, title, caption, image, placeId } = req.body;
+    const userExist = await feedFuncs.getUserHealthDetails(req.user.id);
+    if(userExist.length > 0){
+      return failResponse(req, res, " you have already added your health details "); 
+    }
     const verified = await feedFuncs.addUserHealthDetails(req.body);
     return successResponse(req, res, "health details added ");
   } catch (error) {
