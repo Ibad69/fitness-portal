@@ -120,9 +120,7 @@ export const updatePassword = async (req, res) => {
 
 export const addUserHealthDetails = async (req, res) => {
   try {
-    if (!req.body.userId) {
-      return failResponse(req, res, "please provide a userId in the body will be updated by token in the future ");
-    }
+    req.body.userId = req.user.id;
     // if (!req.body.email) {
     //   return failResponse(req, res, "email needs to be given here ");
     // }
