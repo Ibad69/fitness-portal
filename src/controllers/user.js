@@ -121,16 +121,24 @@ export const updatePassword = async (req, res) => {
 export const addUserHealthDetails = async (req, res) => {
   try {
     req.body.userId = req.user.id;
-    const userExist = await feedFuncs.getUserHealthDetails(req.user.id);
-    if(userExist.length > 0){
-      return failResponse(req, res, " you have already added your health details "); 
-    }
     const verified = await feedFuncs.addUserHealthDetails(req.body);
     return successResponse(req, res, "health details added ");
   } catch (error) {
     return errorResponse(req, res, error);
   }
 };
+
+export const checkUserDetails = async (req, res) => {
+  try {
+    const userExist = await feedFuncs.getUserHealthDetails(req.user.id);
+    if (userExist.length > 0) {
+      return failResponse(req, res, " you have already added your health details ");
+    }
+    return successResponse(req, res, "proceed with details add");
+  } catch (error) {
+    return errorResponse(req, res, error);
+  }
+}
 
 export const getPosts = async (req, res) => {
   try {
@@ -201,7 +209,7 @@ export const getDiseases = async (req, res) => {
 
 export const getPostByDis = async (req, res) => {
   try {
-    if(!req.body.diseaseId){
+    if (!req.body.diseaseId) {
       return failResponse(req, res, "please provide a disease ");
     }
     const posts = await feedFuncs.getPostByDis(req.body);
