@@ -62,7 +62,8 @@ export const getCustomPosts = async (body) => {
   let userDetails = await getUserHealthDetails(userId);
   userDetails = userDetails[0];
   if (!userDetails.recommendedIntake){
-    return "user have not applied for recommendations yet";
+    const randomPosts = await getRandomPosts();
+    return randomPosts;
   }
   const intake = parseInt(userDetails.recommendedIntake);
   const goal = userDetails.goal;
