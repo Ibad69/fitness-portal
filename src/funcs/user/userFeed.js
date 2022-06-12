@@ -266,3 +266,21 @@ export const getUserHealthDetails = async (userId) => {
 
 
 }
+
+export const getUserHealthCheck = async (userId) => {
+
+  const userResult = await db.query(
+    `
+                SELECT name, email, uhd.weight, uhd.height, uhd.goal, uhd.recommendedIntake 
+                FROM users JOIN user_health_details as uhd ON uhd.userId = users.id WHERE users.id = :userId
+
+            `,
+    {
+      replacements: { userId },
+      type: QueryTypes.SELECT,
+    }
+  );
+  return userResult;
+
+
+}

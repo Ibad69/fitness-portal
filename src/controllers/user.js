@@ -130,7 +130,7 @@ export const addUserHealthDetails = async (req, res) => {
 
 export const checkUserDetails = async (req, res) => {
   try {
-    const userExist = await feedFuncs.getUserHealthDetails(req.user.id);
+    const userExist = await feedFuncs.getUserHealthCheck(req.user.id);
     if (userExist.length > 0) {
       return failResponse(req, res, " you have already added your health details ");
     }
