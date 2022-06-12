@@ -61,6 +61,9 @@ export const getCustomPosts = async (body) => {
 
   let userDetails = await getUserHealthDetails(userId);
   userDetails = userDetails[0];
+  if (!userDetails.recommendedIntake){
+    return "user have not applied for recommendations yet";
+  }
   const intake = parseInt(userDetails.recommendedIntake);
   const goal = userDetails.goal;
 
@@ -250,7 +253,7 @@ export const getUserHealthDetails = async (userId) => {
   const userResult = await db.query(
     `
                 SELECT name, email, uhd.weight, uhd.height, uhd.goal, uhd.recommendedIntake 
-                FROM users JOIN user_health_details as uhd ON uhd.userId = users.id WHERE users.id = :userId
+                FROM users LEFT JOIN user_health_details as uhd ON uhd.userId = users.id WHERE users.id = :userId
 
             `,
     {
