@@ -13,7 +13,7 @@ router.post("/getCustomPosts",  middleWareFunc, userAuth.getCustomPosts);
 router.post("/getRandomPosts", userAuth.getRandomPosts);
 router.post("/getDiseases", userAuth.getDiseases);
 router.post("/getPostsByDiseases", userAuth.getPostByDis);
-router.post("/checkUserDetails", userAuth.checkUserDetails);
+router.post("/checkUserDetails", middleWareFunc, userAuth.checkUserDetails);
 //router.post("/getRecommendations");
 // router.post("/sendEmail", userAuth.sendEmail);
 // router.post("/verifyCode", userAuth.verifyCode);
