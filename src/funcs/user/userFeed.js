@@ -6,8 +6,72 @@ import { db } from "../../index.js";
 export const addUserHealthDetails = async (body) => {
 
   const { userId, gender, weight, height, goal, caloriesIntake, caloriesBurned, excercises, dietPlan } = body;
-  
-  let recommendedIntake = 220;
+  let bmr;
+  let bmi;
+  let age = 22;
+  let recommendedIntake;
+  if(gender === "MALE"){
+    let uptHeight = height.split(/[, ]+/);
+    let heightInCm = ((parseFloat(uptHeight[0])*12) + parseFloat(uptHeight[1]))*2.54;
+    bmr = (10*parseFloat(weight))+(6.25*heightInCm)-(5*parseInt(age))+5;
+    bmi = (parseFloat(weight)/(heightInCm*heightInCm))*10000;
+    let totalCalories = caloriesIntake - caloriesBurned;
+    if(parseFloat(totalCalories) > parseFloat(bmr) || parseFloat(totalCalories) === parseFloat(bmr)){
+      if(goal === "weightGain"){
+        recommendedIntake = 500;
+      }
+      else{
+        recommendedIntake = 0;  
+      }
+    }
+    else if(parseFloat(totalCalories) < parseFloat(bmr)){
+      if(goal === "stayFit"){
+        recommendedIntake = bmr - totalCalories;
+      }
+      if(goal === "weightGain"){
+      recommendedIntake = parseFloat(bmr - totalCalories) + 500;
+      }
+      else if(goal === "weightLose"){
+        recommendedIntake = 0;
+      }
+    }
+    console.log(bmr);
+    console.log(bmi);
+    console.log(recommendedIntake);
+  }
+  // calcls for females
+  else if(gender === "FEMALE"){
+    let uptHeight = height.split(/[, ]+/);
+    let heightInCm = ((parseFloat(uptHeight[0])*12) + parseFloat(uptHeight[1]))*2.54;
+    bmr = (10*parseFloat(weight))+(6.25*heightInCm)-(5*parseInt(age))-161;
+    bmi = (parseFloat(weight)/(heightInCm*heightInCm))*10000;
+    let totalCalories = caloriesIntake - caloriesBurned;
+    if(parseFloat(totalCalories) > parseFloat(bmr) || parseFloat(totalCalories) === parseFloat(bmr)){
+      if(goal === "weightGain"){
+        recommendedIntake = 500;
+      }
+      else{
+        recommendedIntake = 0;  
+      }
+    }
+    else if(parseFloat(totalCalories) < parseFloat(bmr)){
+      
+      if(goal === "stayFit"){
+        console.log('inside stay fit ');
+        recommendedIntake = bmr - totalCalories;
+      }
+      if(goal === "weightGain"){
+      recommendedIntake = parseFloat(bmr - totalCalories) + 500;
+      }
+      else if(goal === "weightLose"){
+        recommendedIntake = 0;
+      }
+    }
+    console.log(totalCalories);
+    console.log(bmr);
+    console.log(bmi);
+    console.log(recommendedIntake);
+  }
   let id = crypto.randomUUID();
 
   const postResult = await db.query(
