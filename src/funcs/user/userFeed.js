@@ -5,10 +5,9 @@ import { db } from "../../index.js";
 
 export const addUserHealthDetails = async (body) => {
 
-  const { userId, gender, weight, height, goal, caloriesIntake, caloriesBurned, excercises, dietPlan } = body;
+  const { userId, gender, weight, height, goal, caloriesIntake, caloriesBurned, excercises, dietPlan, age } = body;
   let bmr;
   let bmi;
-  let age = 22;
   let recommendedIntake;
   if(gender === "MALE"){
     let uptHeight = height.split(/[, ]+/);
@@ -76,11 +75,11 @@ export const addUserHealthDetails = async (body) => {
 
   const postResult = await db.query(
     `
-     INSERT INTO user_health_details(id, userId, gender, weight, height, goal, recommendedIntake, caloriesIntake, caloriesBurned) 
-     VALUES(:id, :userId, :gender, :weight, :height, :goal, :recommendedIntake, :caloriesIntake, :caloriesBurned)
+     INSERT INTO user_health_details(id, userId, gender, weight, height, goal, recommendedIntake, caloriesIntake, caloriesBurned, age) 
+     VALUES(:id, :userId, :gender, :weight, :height, :goal, :recommendedIntake, :caloriesIntake, :caloriesBurned, :age)
      `,
     {
-      replacements: { id, userId, gender, weight, height, goal, recommendedIntake, caloriesIntake, caloriesBurned },
+      replacements: { id, userId, gender, weight, height, goal, recommendedIntake, caloriesIntake, caloriesBurned, age },
       type: QueryTypes.INSERT,
     }
   );
@@ -128,6 +127,9 @@ export const getCustomPosts = async (body) => {
   if (!userDetails.recommendedIntake){
     const randomPosts = await getRandomPosts();
     return randomPosts;
+  }
+  if(userDetails.goal === "weightLose"){
+    return await getWeightLose();
   }
   const intake = parseInt(userDetails.recommendedIntake);
   const goal = userDetails.goal;
@@ -212,6 +214,42 @@ export const getRandomPosts = async (body) => {
 
 }
 
+export const getWeightLose = async () => {
+  const postResult = await db.query(
+    `
+      SELECT 
+       id, title, caption, type, 
+       (
+        SELECT 
+        JSON_ARRAYAGG(JSON_OBJECT(
+            "postContentId",pc.id,
+            "postContentCaption",pc.caption,
+            "description",pc.description,
+            "additionalDescription",pc.additionalDescription,
+            "mediaUrl",pc.mediaUrl
+        )) 
+        FROM  post_content as pc
+        WHERE postId = posts.id
+        ) as headings,
+        (
+          SELECT 
+          JSON_ARRAYAGG(JSON_OBJECT(
+              "sliderId",slider.id,
+              "fileType",fileType,
+              "fileURL",fileURL
+          )) 
+          FROM  posts_media as slider
+          WHERE postId = posts.id
+          ) as slider
+       FROM posts WHERE goalType = 'weightLose'
+      `,
+    {
+      replacements: { },
+      type: QueryTypes.SELECT,
+    }
+  );
+  return postResult;
+}
 
 export const getDietItems = async () => {
 
