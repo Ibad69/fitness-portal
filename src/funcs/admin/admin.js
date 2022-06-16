@@ -106,3 +106,34 @@ export const addDisease = async (body) => {
     return  " added ";
 }
 
+// export const updatePost = async (body) => {
+//     const { title, caption, summary, headings, slider, postId  } = body;
+//     let id = crypto.randomUUID();
+
+//      await db.query(
+//         `
+//         UPDATE posts SET title = :title, caption = :caption, summary = :summary WHERE id = :postId
+//         `,
+//         {
+//             replacements: { title, caption, summary, postId  },
+//             type: QueryTypes.UPDATE,
+//         }
+//     );
+//     if(slider && slider!==""){
+//         for(const item of slider){
+//             const postId = id;
+//             const { fileType, fileURL } = item;
+//              await db.query(
+//                 `
+//                 UPDATE  posts_media(id, postId, fileType, fileURL) VALUES(:id2, :postId, :fileType, :fileURL)
+//                 `,
+//                 {
+//                     replacements: { id2, postId, fileType, fileURL },
+//                     type: QueryTypes.INSERT,
+//                 }
+//             );
+//         }
+//     }
+//     return  " added ";
+// }
+
