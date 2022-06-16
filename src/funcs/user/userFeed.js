@@ -160,7 +160,7 @@ export const getCustomPosts = async (body) => {
           FROM  posts_media as slider
           WHERE postId = posts.id
           ) as slider
-       FROM posts WHERE :intake >= minReqCalories  AND :intake <= maxReqCalories AND goalType = :goal
+       FROM posts WHERE :intake >= minReqCalories  AND :intake <= maxReqCalories AND goalType = :goal AND posts.isDeleted = 0
       `,
     {
       replacements: { intake, goal },
@@ -202,7 +202,7 @@ export const getRandomPosts = async (body) => {
           FROM  posts_media as slider
           WHERE postId = posts.id
           ) as slider
-       FROM posts
+       FROM posts AND posts.isDeleted = 0
       `,
     {
       replacements: {  },
@@ -241,7 +241,7 @@ export const getWeightLose = async () => {
           FROM  posts_media as slider
           WHERE postId = posts.id
           ) as slider
-       FROM posts WHERE goalType = 'weightLose'
+       FROM posts WHERE goalType = 'weightLose' AND posts.isDeleted = 0
       `,
     {
       replacements: { },
@@ -332,7 +332,7 @@ export const getPostByDis = async (body) => {
           FROM  posts_media as slider
           WHERE postId = posts.id
           ) as slider
-       FROM posts WHERE diseaseId = :diseaseId
+       FROM posts WHERE diseaseId = :diseaseId AND posts.isDeleted = 0
       `,
     {
       replacements: { diseaseId },
