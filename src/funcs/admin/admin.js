@@ -37,17 +37,17 @@ export const addExcercises = async (body) => {
 }
 
 export const createBlogPost = async (body) => {
-    const { title, caption, type, goalType } = body;
+    const { title, caption, type, goalType, summary } = body;
     const diseaseId =  body.diseaseId ? body.diseaseId : null
     const minReqCalories = body.minReqCalories ? body.minReqCalories : null
     const maxReqCalories = body.maxReqCalories ? body.maxReqCalories : null
     let id = crypto.randomUUID();
     const placeResult = await db.query(
         `
-        INSERT INTO posts(id, title, caption, type, minReqCalories, maxReqCalories, goalType, diseaseId) VALUES(:id, :title, :caption, :type, :minReqCalories, :maxReqCalories, :goalType, :diseaseId)
+        INSERT INTO posts(id, title, caption, type, minReqCalories, maxReqCalories, goalType, diseaseId, summary) VALUES(:id, :title, :caption, :type, :minReqCalories, :maxReqCalories, :goalType, :diseaseId, :summary)
         `,
         {
-            replacements: { id, title, caption, type, minReqCalories, maxReqCalories, goalType, diseaseId },
+            replacements: { id, title, caption, type, minReqCalories, maxReqCalories, goalType, diseaseId, summary },
             type: QueryTypes.INSERT,
         }
     );
