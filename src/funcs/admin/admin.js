@@ -37,8 +37,10 @@ export const addExcercises = async (body) => {
 }
 
 export const createBlogPost = async (body) => {
-    const { title, caption, type, minReqCalories, maxReqCalories, goalType } = body;
+    const { title, caption, type, goalType } = body;
     const diseaseId =  body.diseaseId ? body.diseaseId : null
+    const minReqCalories = body.minReqCalories ? body.minReqCalories : null
+    const maxReqCalories = body.maxReqCalories ? body.maxReqCalories : null
     let id = crypto.randomUUID();
     const placeResult = await db.query(
         `
