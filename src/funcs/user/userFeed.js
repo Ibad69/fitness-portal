@@ -202,7 +202,7 @@ export const getRandomPosts = async (body) => {
           FROM  posts_media as slider
           WHERE postId = posts.id
           ) as slider
-       FROM posts AND posts.isDeleted = 0
+       FROM posts WHERE posts.isDeleted = 0
       `,
     {
       replacements: {  },
