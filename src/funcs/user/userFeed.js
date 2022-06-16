@@ -137,7 +137,7 @@ export const getCustomPosts = async (body) => {
   const postResult = await db.query(
     `
       SELECT 
-       id, title, caption, type, 
+       id, title, caption, type, summary,
        (
         SELECT 
         JSON_ARRAYAGG(JSON_OBJECT(
@@ -179,7 +179,7 @@ export const getRandomPosts = async (body) => {
   const postResult = await db.query(
     `
       SELECT 
-       id, title, caption, type, 
+       id, title, caption, type, summary,
        (
         SELECT 
         JSON_ARRAYAGG(JSON_OBJECT(
@@ -218,7 +218,7 @@ export const getWeightLose = async () => {
   const postResult = await db.query(
     `
       SELECT 
-       id, title, caption, type, 
+       id, title, caption, type, summary,
        (
         SELECT 
         JSON_ARRAYAGG(JSON_OBJECT(
@@ -309,7 +309,7 @@ export const getPostByDis = async (body) => {
   const postResult = await db.query(
     `
       SELECT 
-       id, title, caption, type, 
+       id, title, caption, type, summary,
        (
         SELECT 
         JSON_ARRAYAGG(JSON_OBJECT(
