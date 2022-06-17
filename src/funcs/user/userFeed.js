@@ -131,6 +131,9 @@ export const getCustomPosts = async (body) => {
   if(userDetails.goal === "weightLose"){
     return await getWeightLose();
   }
+  if(userDetails.goal === "stayFit"){
+    return await getStayFit();
+  }
   const intake = parseInt(userDetails.recommendedIntake);
   const goal = userDetails.goal;
 
@@ -242,6 +245,43 @@ export const getWeightLose = async () => {
           WHERE postId = posts.id
           ) as slider
        FROM posts WHERE goalType = 'weightLose' AND posts.isDeleted = 0
+      `,
+    {
+      replacements: { },
+      type: QueryTypes.SELECT,
+    }
+  );
+  return postResult;
+}
+
+export const getStayFit = async () => {
+  const postResult = await db.query(
+    `
+      SELECT 
+       id, title, caption, type, summary,
+       (
+        SELECT 
+        JSON_ARRAYAGG(JSON_OBJECT(
+            "postContentId",pc.id,
+            "postContentCaption",pc.caption,
+            "description",pc.description,
+            "additionalDescription",pc.additionalDescription,
+            "mediaUrl",pc.mediaUrl
+        )) 
+        FROM  post_content as pc
+        WHERE postId = posts.id
+        ) as headings,
+        (
+          SELECT 
+          JSON_ARRAYAGG(JSON_OBJECT(
+              "sliderId",slider.id,
+              "fileType",fileType,
+              "fileURL",fileURL
+          )) 
+          FROM  posts_media as slider
+          WHERE postId = posts.id
+          ) as slider
+       FROM posts WHERE goalType = 'stayFit' AND posts.isDeleted = 0
       `,
     {
       replacements: { },
