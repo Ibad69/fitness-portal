@@ -5,32 +5,59 @@ import { db } from "../../index.js";
 
 export const addUserHealthDetails = async (body) => {
 
-  const { userId, gender, weight, height, goal, caloriesIntake, caloriesBurned, excercises, dietPlan, age } = body;
+  const { userId, gender, weight, height, caloriesIntake, caloriesBurned, excercises, dietPlan, age } = body;
   let bmr;
   let bmi;
+  let goal;
   let recommendedIntake;
-  if(gender === "MALE"){
+  let bmiType;
+  if (gender === "MALE") {
     let uptHeight = height.split(/[, ]+/);
-    let heightInCm = ((parseFloat(uptHeight[0])*12) + parseFloat(uptHeight[1]))*2.54;
-    bmr = (10*parseFloat(weight))+(6.25*heightInCm)-(5*parseInt(age))+5;
-    bmi = (parseFloat(weight)/(heightInCm*heightInCm))*10000;
+    let heightInCm = ((parseFloat(uptHeight[0]) * 12) + parseFloat(uptHeight[1])) * 2.54;
+    bmr = (10 * parseFloat(weight)) + (6.25 * heightInCm) - (5 * parseInt(age)) + 5;
+    bmi = (parseFloat(weight) / (heightInCm * heightInCm)) * 10000;
     let totalCalories = caloriesIntake - caloriesBurned;
-    if(parseFloat(totalCalories) > parseFloat(bmr) || parseFloat(totalCalories) === parseFloat(bmr)){
-      if(goal === "weightGain"){
+    if (parseFloat(totalCalories) > parseFloat(bmr) || parseFloat(totalCalories) === parseFloat(bmr)) {
+      if (bmi <= 18.5) {
+        goal = "weightGain";
+        bmiType = "under-weight";
         recommendedIntake = 500;
       }
-      else{
-        recommendedIntake = 0;  
+      else if (bmi > 18.5 && bmi < 24.9) {
+        goal = "stayFit";
+        bmiType = "healthy";
+        recommendedIntake = 0;
+      }
+      else if (bmi >= 25 && bmi <= 29.9) {
+        goal = "weightLose"
+        bmiType = "over-weight";
+        recommendedIntake = 0;
+      }
+      else if (bmi >= 25 && bmi <= 29.9) {
+        goal = "weightLose"
+        bmiType = "obese";
+        recommendedIntake = 0;
       }
     }
-    else if(parseFloat(totalCalories) < parseFloat(bmr)){
-      if(goal === "stayFit"){
-        recommendedIntake = bmr - totalCalories;
+    else if (parseFloat(totalCalories) < parseFloat(bmr)) {
+      if (bmi <= 18.5) {
+        goal = "weightGain";
+        bmiType = "under-weight";
+        recommendedIntake = 500;
       }
-      if(goal === "weightGain"){
-      recommendedIntake = parseFloat(bmr - totalCalories) + 500;
+      else if (bmi > 18.5 && bmi < 24.9) {
+        goal = "stayFit";
+        bmiType = "healthy";
+        recommendedIntake = 0;
       }
-      else if(goal === "weightLose"){
+      else if (bmi >= 25 && bmi <= 29.9) {
+        goal = "weightLose"
+        bmiType = "over-weight";
+        recommendedIntake = 0;
+      }
+      else if (bmi >= 25 && bmi <= 29.9) {
+        goal = "weightLose"
+        bmiType = "obese";
         recommendedIntake = 0;
       }
     }
@@ -39,30 +66,54 @@ export const addUserHealthDetails = async (body) => {
     console.log(recommendedIntake);
   }
   // calcls for females
-  else if(gender === "FEMALE"){
+  else if (gender === "FEMALE") {
     let uptHeight = height.split(/[, ]+/);
-    let heightInCm = ((parseFloat(uptHeight[0])*12) + parseFloat(uptHeight[1]))*2.54;
-    bmr = (10*parseFloat(weight))+(6.25*heightInCm)-(5*parseInt(age))-161;
-    bmi = (parseFloat(weight)/(heightInCm*heightInCm))*10000;
+    let heightInCm = ((parseFloat(uptHeight[0]) * 12) + parseFloat(uptHeight[1])) * 2.54;
+    bmr = (10 * parseFloat(weight)) + (6.25 * heightInCm) - (5 * parseInt(age)) - 161;
+    bmi = (parseFloat(weight) / (heightInCm * heightInCm)) * 10000;
     let totalCalories = caloriesIntake - caloriesBurned;
-    if(parseFloat(totalCalories) > parseFloat(bmr) || parseFloat(totalCalories) === parseFloat(bmr)){
-      if(goal === "weightGain"){
+    if (parseFloat(totalCalories) > parseFloat(bmr) || parseFloat(totalCalories) === parseFloat(bmr)) {
+      if (bmi <= 18.5) {
+        goal = "weightGain";
+        bmiType = "under-weight";
         recommendedIntake = 500;
       }
-      else{
-        recommendedIntake = 0;  
+      else if (bmi > 18.5 && bmi < 24.9) {
+        goal = "stayFit";
+        bmiType = "healthy";
+        recommendedIntake = 0;
+      }
+      else if (bmi >= 25 && bmi <= 29.9) {
+        goal = "weightLose"
+        bmiType = "over-weight";
+        recommendedIntake = 0;
+      }
+      else if (bmi >= 25 && bmi <= 29.9) {
+        goal = "weightLose"
+        bmiType = "obese";
+        recommendedIntake = 0;
       }
     }
-    else if(parseFloat(totalCalories) < parseFloat(bmr)){
-      
-      if(goal === "stayFit"){
-        console.log('inside stay fit ');
-        recommendedIntake = bmr - totalCalories;
+    else if (parseFloat(totalCalories) < parseFloat(bmr)) {
+
+      if (bmi <= 18.5) {
+        goal = "weightGain";
+        bmiType = "under-weight";
+        recommendedIntake = 500;
       }
-      if(goal === "weightGain"){
-      recommendedIntake = parseFloat(bmr - totalCalories) + 500;
+      else if (bmi > 18.5 && bmi < 24.9) {
+        goal = "stayFit";
+        bmiType = "healthy";
+        recommendedIntake = 0;
       }
-      else if(goal === "weightLose"){
+      else if (bmi >= 25 && bmi <= 29.9) {
+        goal = "weightLose"
+        bmiType = "over-weight";
+        recommendedIntake = 0;
+      }
+      else if (bmi >= 25 && bmi <= 29.9) {
+        goal = "weightLose"
+        bmiType = "obese";
         recommendedIntake = 0;
       }
     }
@@ -75,11 +126,11 @@ export const addUserHealthDetails = async (body) => {
 
   const postResult = await db.query(
     `
-     INSERT INTO user_health_details(id, userId, gender, weight, height, goal, recommendedIntake, caloriesIntake, caloriesBurned, age) 
-     VALUES(:id, :userId, :gender, :weight, :height, :goal, :recommendedIntake, :caloriesIntake, :caloriesBurned, :age)
+     INSERT INTO user_health_details(id, userId, gender, weight, height, goal, recommendedIntake, caloriesIntake, caloriesBurned, age, bmiType) 
+     VALUES(:id, :userId, :gender, :weight, :height, :goal, :recommendedIntake, :caloriesIntake, :caloriesBurned, :age, :bmiType)
      `,
     {
-      replacements: { id, userId, gender, weight, height, goal, recommendedIntake, caloriesIntake, caloriesBurned, age },
+      replacements: { id, userId, gender, weight, height, goal, recommendedIntake, caloriesIntake, caloriesBurned, age, bmiType },
       type: QueryTypes.INSERT,
     }
   );
@@ -124,14 +175,14 @@ export const getCustomPosts = async (body) => {
 
   let userDetails = await getUserHealthDetails(userId);
   userDetails = userDetails[0];
-  if (!userDetails.recommendedIntake){
+  if (!userDetails.recommendedIntake) {
     const randomPosts = await getRandomPosts();
     return randomPosts;
   }
-  if(userDetails.goal === "weightLose"){
+  if (userDetails.goal === "weightLose") {
     return await getWeightLose();
   }
-  if(userDetails.goal === "stayFit"){
+  if (userDetails.goal === "stayFit") {
     return await getStayFit();
   }
   const intake = parseInt(userDetails.recommendedIntake);
@@ -208,7 +259,7 @@ export const getRandomPosts = async (body) => {
        FROM posts WHERE posts.isDeleted = 0
       `,
     {
-      replacements: {  },
+      replacements: {},
       type: QueryTypes.SELECT,
     }
   );
@@ -247,7 +298,7 @@ export const getWeightLose = async () => {
        FROM posts WHERE goalType = 'weightLose' AND posts.isDeleted = 0
       `,
     {
-      replacements: { },
+      replacements: {},
       type: QueryTypes.SELECT,
     }
   );
@@ -284,7 +335,7 @@ export const getStayFit = async () => {
        FROM posts WHERE goalType = 'stayFit' AND posts.isDeleted = 0
       `,
     {
-      replacements: { },
+      replacements: {},
       type: QueryTypes.SELECT,
     }
   );
