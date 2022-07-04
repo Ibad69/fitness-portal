@@ -344,16 +344,19 @@ export const getStayFit = async () => {
 
 export const getDietItems = async () => {
 
-  const userResult = await db.query(
-    `
-                SELECT * FROM diet_items
+  // const userResult = await db.query(
+  //   `
+  //               SELECT * FROM diet_items
 
-            `,
-    {
-      replacements: {},
-      type: QueryTypes.SELECT,
-    }
-  );
+  //           `,
+  //   {
+  //     replacements: {},
+  //     type: QueryTypes.SELECT,
+  //   }
+  // );
+  for(let i = 0; i < 3; i++){
+    setTimeout(function() {alert(i);}, 1000 + i);
+  }
   return userResult;
 
 
